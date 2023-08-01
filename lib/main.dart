@@ -8,6 +8,7 @@ import 'package:ownshoppers_user/pages/product_list_page.dart';
 import 'package:ownshoppers_user/pages/user_order-list_page.dart';
 import 'package:ownshoppers_user/pages/user_profile_page.dart';
 import 'package:ownshoppers_user/provider/cart_provider.dart';
+import 'package:ownshoppers_user/provider/order_provider.dart';
 import 'package:ownshoppers_user/provider/product_provider.dart';
 import 'package:ownshoppers_user/provider/user_provider.dart';
 import 'package:provider/provider.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ProductProvider()),
         ChangeNotifierProvider(create: (context) => UserProvider()),
         ChangeNotifierProvider(create: (context) => CartProvider()),
+        ChangeNotifierProvider(create: (context) => OrderProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

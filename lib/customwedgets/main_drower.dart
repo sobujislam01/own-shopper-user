@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ownshoppers_user/auth/auth_service.dart';
+import 'package:ownshoppers_user/customwedgets/checkout_cart.dart';
+import 'package:ownshoppers_user/pages/cart_page.dart';
 import 'package:ownshoppers_user/pages/login_page.dart';
 
 class MainDrawer extends StatelessWidget {
@@ -25,12 +27,16 @@ class MainDrawer extends StatelessWidget {
             title: Text('My Profile'),
           ),
           ListTile(
-            onTap: (){},
+            onTap: (){
+
+            },
             leading: Icon(Icons.diamond),
             title: Text('My Order'),
           ),
           ListTile(
-            onTap: (){},
+            onTap: (){
+              Navigator.pushNamed(context, CartPage.routeName);
+            },
             leading: Icon(Icons.shopping_cart),
             title: Text('My Cart'),
           ),

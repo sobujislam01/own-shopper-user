@@ -5,6 +5,8 @@ class DBHelper {
   static const _collectionProduct = 'products';
   static const _collectionCategory = 'catagory';
   static const _collectionUser = 'Users';
+  static const _collectionOrderUtils = 'OrderUtils';
+  static const _documentConstants = 'Constants';
 
   static FirebaseFirestore _db = FirebaseFirestore.instance;
 
@@ -22,6 +24,9 @@ class DBHelper {
 
   static Stream<DocumentSnapshot<Map<String, dynamic>>> fetchProductbyProductId(String productId) =>
       _db.collection(_collectionProduct).doc(productId).snapshots();
+
+  static Stream<DocumentSnapshot<Map<String, dynamic>>> fetchOrderConstants() =>
+      _db.collection(_collectionOrderUtils).doc(_documentConstants).snapshots();
 
 
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ownshoppers_user/auth/auth_service.dart';
 import 'package:ownshoppers_user/customwedgets/main_drower.dart';
 import 'package:ownshoppers_user/customwedgets/product_item.dart';
+import 'package:ownshoppers_user/pages/cart_page.dart';
 import 'package:ownshoppers_user/pages/login_page.dart';
 import 'package:ownshoppers_user/provider/product_provider.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +32,9 @@ class _ProductListPageState extends State<ProductListPage> {
       appBar: AppBar(
         title: Text('Product List'),
         actions: [
-          IconButton(onPressed: (){}, icon: Icon(Icons.shopping_cart))
+          IconButton(onPressed: () => Navigator.pushNamed(context, CartPage.routeName),
+              icon: Icon(Icons.shopping_cart)),
+
         ],
       ),
       body: GridView.count(

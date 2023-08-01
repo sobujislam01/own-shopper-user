@@ -14,6 +14,12 @@ class AuthService {
     return credential.user?.uid;
   }
 
+  static bool isUserVerified() => _auth.currentUser?.emailVerified ?? false;
+
+  static Future<void> sendVerificationMail(){
+    return _auth.currentUser!.sendEmailVerification();
+  }
+
   static Future<void> logout(){
     return _auth.signOut();
   }
