@@ -51,7 +51,7 @@ class OrderModel2 {
     return map;
   }
 
-/*
+
   factory OrderModel2.fromMap(Map<String,dynamic>map) => OrderModel2(
     orderId : map[ORDER_ID],
     userId : map[USER_ID],
@@ -64,5 +64,4 @@ class OrderModel2 {
     orderStatus : map[ORDER_ORDER_STATUS],
     paymentMethod : map[ORDER_PAYMENT_METHOD],
   );
-*/
 }
