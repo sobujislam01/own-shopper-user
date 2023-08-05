@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ownshoppers_user/db/DB_Helper.dart';
+import 'package:ownshoppers_user/models/cart_model.dart';
 import 'package:ownshoppers_user/models/order_model.dart';
+import 'package:ownshoppers_user/models/order_model2.dart';
 
 class OrderProvider with ChangeNotifier {
   OrderModel orderModel = OrderModel();
@@ -24,6 +26,10 @@ class OrderProvider with ChangeNotifier {
   
   num getGrandTotal(num total){
     return (total+getTotalVatAmount(total)+orderModel.deliveryCharge) - getDiscountAmount(total);
+  }
+
+  Future<void> addNewOrder(OrderModel2 orderModel2,List<CartModel> cartModel){
+    return DBHelper.addNewOrder(orderModel2, cartModel);
   }
 
 }
