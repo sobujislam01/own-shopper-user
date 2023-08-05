@@ -1,5 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:ownshoppers_user/auth/auth_service.dart';
+import 'package:ownshoppers_user/models/order_model2.dart';
+import 'package:ownshoppers_user/pages/order_successful_page.dart';
 import 'package:ownshoppers_user/provider/cart_provider.dart';
+import 'package:ownshoppers_user/utils/DBHelper_Function.dart';
 import 'package:ownshoppers_user/utils/constants.dart';
 import 'package:provider/provider.dart';
 
@@ -17,6 +22,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
   late CartProvider _cartProvider;
   late OrderProvider _orderProvider;
   String radioGroupValue = Payment.cod;
+  final _addressController = TextEditingController();
 
   @override
   void didChangeDependencies() {
@@ -24,6 +30,11 @@ class _CheckoutPageState extends State<CheckoutPage> {
     _orderProvider = Provider.of<OrderProvider>(context);
     _orderProvider.getOrderConstants();
     super.didChangeDependencies();
+  }
+  @override
+  void dispose() {
+    _addressController.dispose();
+    super.dispose();
   }
 
   @override
@@ -34,6 +45,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
             child: ListView(
@@ -43,11 +55,15 @@ class _CheckoutPageState extends State<CheckoutPage> {
                const Divider(height: 2,color: Colors.black,),
                 Column(
                  mainAxisSize: MainAxisSize.min,
-                  children: _cartProvider.cartlist.map((cartModel) => ListTile(
-                    title: Text(cartModel.productName),
-                    trailing: Text('${cartModel.Quentity} * ${cartModel.price}'),
+                  children: _cartProvider.cartlist.map((cartModel) => Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                     children: [
+                       Text(cartModel.productName,style: TextStyle(fontSize: 18),),
+                       Text('${cartModel.Quentity} * ${cartModel.price}'),
+                     ],
                   )).toList(),
                 ),
+                SizedBox(height: 20,),
                 const Text('Order Summary',style: TextStyle(fontSize: 20),),
                 const Divider(height: 2,color: Colors.black,),
                 Column(
@@ -91,7 +107,18 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     SizedBox(height: 20,)
                   ],
                 ),
-                const Text('Select payment mathod',style: TextStyle(fontSize: 20),),
+                const Text('Set Delivery Address',style: TextStyle(fontSize: 20),),
+                const Divider(height: 3,color: Colors.black,),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    controller: _addressController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                ),
+                const Text('Select payment method',style: TextStyle(fontSize: 20),),
                 const Divider(height: 3,color: Colors.black,),
                 Row(
                   children: [
@@ -122,14 +149,39 @@ class _CheckoutPageState extends State<CheckoutPage> {
               ],
             ),
           ),
-          ElevatedButton(
-              onPressed: _saqveOrder,
-              child:const Text('Place Order'))
+
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+                onPressed: _saveOrder,
+                child:const Text('Place Order')),
+          )
         ],
       )
     );
   }
 
-  void _saqveOrder() {
+  void _saveOrder() {
+    if(_addressController.text.isEmpty){
+      showMsg(context, 'Please provide a delivery address');
+    }
+    
+    final orderModel2 = OrderModel2(
+        timestamp: Timestamp.now(),
+        userId: AuthService.currentUser!.uid,
+        grandTotal: _orderProvider.getGrandTotal(_cartProvider.cartItemTotalPrice),
+        discount: _orderProvider.orderModel.discount,
+        deliveryCharge: _orderProvider.orderModel.deliveryCharge,
+        deliveryAddress: _addressController.text,
+        vat: _orderProvider.orderModel.vat,
+        orderStatus: OrderStatus.pending,
+        paymentMethod: radioGroupValue);
+    _orderProvider.addNewOrder(orderModel2, _cartProvider.cartlist).then((value) {
+      Navigator.pushNamed(context, OrderSuccessfulPage.routeName);
+    }).catchError((error){
+      showMsg(context, 'Could Not Save.');
+    });
+
+    print(orderModel2);
   }
 }

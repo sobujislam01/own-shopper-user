@@ -79,7 +79,9 @@ class _CartPageState extends State<CartPage> {
                    // _cartProvider.totalItemInCart == 0 ? null : (){
                       //if(!AuthService.isUserVerified()){
                        //showEmailVerificationAlert();
-                      Navigator.pushNamed(context, CheckoutPage.routeName);
+                      if(_cartProvider.cartlist.isNotEmpty) {
+                        Navigator.pushNamed(context, CheckoutPage.routeName);
+                      }
 
                     }
                   ),
