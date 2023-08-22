@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:ownshoppers_user/pages/cart_page.dart';
 import 'package:ownshoppers_user/pages/checkout_page.dart';
+import 'package:ownshoppers_user/pages/order_details_page.dart';
 import 'package:ownshoppers_user/pages/order_successful_page.dart';
 import 'package:ownshoppers_user/pages/product_details_page.dart';
 import 'package:ownshoppers_user/pages/product_list_page.dart';
@@ -52,6 +53,7 @@ class MyApp extends StatelessWidget {
           ProductListPage.routeName : (context) => ProductListPage(),
           UserOrderListPage.routeName : (context) => UserOrderListPage(),
           UserProfilePage.routeName: (context) => UserProfilePage(),
+          OrderDetailsPage.routeName: (context) => OrderDetailsPage(),
         },
       ),
     );

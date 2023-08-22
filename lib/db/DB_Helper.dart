@@ -32,6 +32,12 @@ class DBHelper {
     return writeBatch.commit();
   }
 
+  static Stream<QuerySnapshot<Map<String, dynamic>>> fetchAllOrdersDetails(String orderId) =>
+      _db.collection(_collectionOrder).doc(orderId).collection(_collectionOrderDetails).snapshots();
+
+
+  static Stream<QuerySnapshot<Map<String, dynamic>>> fetchAllOrdersByUserId(String userId) =>
+      _db.collection(_collectionOrder).where('userId',isEqualTo: userId).snapshots();
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> fetchAllCatagory() =>
       _db.collection(_collectionCategory).snapshots();

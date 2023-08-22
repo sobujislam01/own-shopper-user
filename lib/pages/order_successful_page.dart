@@ -15,7 +15,16 @@ class _OrderSuccessfulPageState extends State<OrderSuccessfulPage> {
       appBar: AppBar(
         title: Text('SucessFull'),
       ),
-      body: Text('Your Order Place SucessFull'),
+      body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Your Order Place SucessFull'),
+              ElevatedButton(onPressed: (){
+                Navigator.pop(context);
+              }, child: Text('Go to Home'))
+            ],
+          )),
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:ownshoppers_user/auth/auth_service.dart';
 import 'package:ownshoppers_user/customwedgets/checkout_cart.dart';
 import 'package:ownshoppers_user/pages/cart_page.dart';
 import 'package:ownshoppers_user/pages/login_page.dart';
+import 'package:ownshoppers_user/pages/user_order-list_page.dart';
 
 class MainDrawer extends StatelessWidget {
   const MainDrawer({Key? key}) : super(key: key);
@@ -27,9 +28,7 @@ class MainDrawer extends StatelessWidget {
             title: Text('My Profile'),
           ),
           ListTile(
-            onTap: (){
-
-            },
+            onTap: () => Navigator.pushNamed(context, UserOrderListPage.routeName),
             leading: Icon(Icons.diamond),
             title: Text('My Order'),
           ),

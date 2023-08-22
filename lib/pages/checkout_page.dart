@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ownshoppers_user/auth/auth_service.dart';
 import 'package:ownshoppers_user/models/order_model2.dart';
 import 'package:ownshoppers_user/pages/order_successful_page.dart';
+import 'package:ownshoppers_user/pages/product_list_page.dart';
 import 'package:ownshoppers_user/provider/cart_provider.dart';
 import 'package:ownshoppers_user/utils/DBHelper_Function.dart';
 import 'package:ownshoppers_user/utils/constants.dart';
@@ -162,26 +163,30 @@ class _CheckoutPageState extends State<CheckoutPage> {
   }
 
   void _saveOrder() {
-    if(_addressController.text.isEmpty){
+    if(_addressController.text.isEmpty) {
       showMsg(context, 'Please provide a delivery address');
-    }
-    
-    final orderModel2 = OrderModel2(
-        timestamp: Timestamp.now(),
-        userId: AuthService.currentUser!.uid,
-        grandTotal: _orderProvider.getGrandTotal(_cartProvider.cartItemTotalPrice),
-        discount: _orderProvider.orderModel.discount,
-        deliveryCharge: _orderProvider.orderModel.deliveryCharge,
-        deliveryAddress: _addressController.text,
-        vat: _orderProvider.orderModel.vat,
-        orderStatus: OrderStatus.pending,
-        paymentMethod: radioGroupValue);
-    _orderProvider.addNewOrder(orderModel2, _cartProvider.cartlist).then((value) {
-      Navigator.pushNamed(context, OrderSuccessfulPage.routeName);
-    }).catchError((error){
-      showMsg(context, 'Could Not Save.');
-    });
 
-    print(orderModel2);
+      final orderModel2 = OrderModel2(
+          timestamp: Timestamp.now(),
+          userId: AuthService.currentUser!.uid,
+          grandTotal: _orderProvider.getGrandTotal(
+              _cartProvider.cartItemTotalPrice),
+          discount: _orderProvider.orderModel.discount,
+          deliveryCharge: _orderProvider.orderModel.deliveryCharge,
+          deliveryAddress: _addressController.text,
+          vat: _orderProvider.orderModel.vat,
+          orderStatus: OrderStatus.pending,
+          paymentMethod: radioGroupValue);
+      _orderProvider.addNewOrder(orderModel2, _cartProvider.cartlist).then((
+          value) {
+        Navigator.pushNamedAndRemoveUntil(
+            context, OrderSuccessfulPage.routeName,
+            ModalRoute.withName(ProductListPage.routeName));
+        _cartProvider.clearCart();
+      }).catchError((error) {
+        showMsg(context, 'Could Not Save.');
+      });
+    }
+
   }
 }
